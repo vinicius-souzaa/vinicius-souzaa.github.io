@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vinicius Souza — Data Analyst</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #F7F5F0;
+      --bg2: #EFEDE6;
+      --surface: #FFFFFF;
+      --border: #E0DDD4;
+      --border2: #C8C4B8;
+      --accent: #1A3A2A;
+      --accent2: #2D6A4A;
+      --gold: #B8860B;
+      --gold-light: #FFF8E7;
+      --text: #1C1C18;
+      --text2: #5A5850;
+      --text3: #8A8780;
+      --tag-bg: #EBF5EE;
+      --tag-c: #1A4A2A;
+      --tag-border: #C0DACC;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 4rem;
+      background: rgba(247,245,240,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: 'Instrument Serif', serif; font-size: 1.35rem; color: var(--accent); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { color: var(--text2); text-decoration: none; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 5rem;
+    }
+    .hero-left {
+      padding: 7rem 3rem 5rem 4rem;
+      display: flex; flex-direction: column; justify-content: center;
+      border-right: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--tag-bg); border: 1px solid var(--tag-border);
+      color: var(--tag-c); font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.35rem 0.85rem; border-radius: 2rem; margin-bottom: 2rem; width: fit-content;
+      opacity: 0; animation: fadeUp 0.7s ease 0.1s forwards;
+    }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--accent2); border-radius: 50%; }
+    .hero-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      line-height: 0.95; letter-spacing: -0.03em; color: var(--accent);
+      margin-bottom: 0.5rem; opacity: 0; animation: fadeUp 0.7s ease 0.2s forwards;
+    }
+    .hero-name span { font-style: italic; color: var(--accent2); }
+    .hero-title { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.7s ease 0.3s forwards; }
+    .hero-desc { font-size: 1rem; color: var(--text2); max-width: 420px; line-height: 1.7; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.7s ease 0.4s forwards; }
+    .hero-cta { display: flex; gap: 0.75rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s ease 0.5s forwards; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.7rem 1.5rem; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none; border-radius: 4px; transition: all 0.2s; cursor: pointer; border: none;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(26,58,42,0.25); }
+    .btn-outline { background: transparent; color: var(--accent); border: 1.5px solid var(--border2); }
+    .btn-outline:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .hero-right { padding: 7rem 4rem 5rem 3rem; display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; }
+    .hero-stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem 1.75rem; opacity: 0; animation: fadeUp 0.7s ease forwards; }
+    .hero-stat-card:nth-child(1) { animation-delay: 0.3s; }
+    .hero-stat-card:nth-child(2) { animation-delay: 0.45s; }
+    .hero-stat-card:nth-child(3) { animation-delay: 0.6s; }
+    .hero-stat-num { font-family: 'Instrument Serif', serif; font-size: 2.8rem; color: var(--accent); line-height: 1; margin-bottom: 0.2rem; }
+    .hero-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; }
+    .hero-stat-desc { font-size: 0.83rem; color: var(--text2); margin-top: 0.4rem; line-height: 1.5; }
+    .section-wrap { max-width: 1120px; margin: 0 auto; padding: 6rem 4rem; }
+    .section-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3.5rem; }
+    .section-num { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--text3); letter-spacing: 0.15em; }
+    .section-title { font-family: 'Instrument Serif', serif; font-size: clamp(2rem, 3.5vw, 2.8rem); color: var(--accent); line-height: 1.1; }
+    .section-title em { font-style: italic; color: var(--accent2); }
+    hr.divider { border: none; border-top: 1px solid var(--border); }
+    .about-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 4rem; align-items: start; }
+    .about-lead { font-family: 'Instrument Serif', serif; font-size: 1.35rem; color: var(--accent); line-height: 1.5; margin-bottom: 1.5rem; }
+    .about-lead em { font-style: italic; color: var(--accent2); }
+    .about-body p { font-size: 0.92rem; color: var(--text2); margin-bottom: 1rem; line-height: 1.75; }
+    .about-body strong { color: var(--text); font-weight: 600; }
+    .certif-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .certif-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem 1.1rem; border-left: 3px solid var(--accent2); }
+    .certif-title { font-size: 0.8rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+    .certif-issuer { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text3); letter-spacing: 0.08em; margin-top: 0.2rem; }
+    .skills-bg { background: var(--bg2); }
+    .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+    .skill-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; transition: transform 0.2s, box-shadow 0.2s; }
+    .skill-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(26,58,42,0.1); }
+    .skill-icon { width: 36px; height: 36px; background: var(--tag-bg); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+    .skill-card-title { font-size: 0.78rem; font-weight: 600; color: var(--accent); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .pill { font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; background: var(--tag-bg); color: var(--tag-c); border: 1px solid var(--tag-border); padding: 0.2rem 0.6rem; border-radius: 3px; }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: transform 0.25s, box-shadow 0.25s; }
+    .project-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(26,58,42,0.12); }
+    .project-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+    .project-card:hover::after { transform: scaleX(1); }
+    .project-card.featured { grid-column: span 2; background: var(--accent); border-color: var(--accent); }
+    .project-num { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--text3); letter-spacing: 0.12em; margin-bottom: 1rem; }
+    .project-card.featured .project-num { color: rgba(255,255,255,0.45); }
+    .project-award { display: inline-flex; align-items: center; gap: 0.35rem; background: var(--gold-light); color: var(--gold); border: 1px solid #E8C84A; font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.7rem; border-radius: 2rem; width: fit-content; margin-bottom: 0.75rem; }
+    .project-title { font-family: 'Instrument Serif', serif; font-size: 1.4rem; color: var(--accent); margin-bottom: 0.75rem; line-height: 1.2; }
+    .project-card.featured .project-title { color: #fff; font-size: 1.65rem; }
+    .project-desc { font-size: 0.85rem; color: var(--text2); line-height: 1.7; flex: 1; margin-bottom: 1.5rem; }
+    .project-card.featured .project-desc { color: rgba(255,255,255,0.72); }
+    .project-pills { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.5rem; }
+    .project-pill { font-size: 0.65rem; font-family: 'JetBrains Mono', monospace; background: var(--tag-bg); color: var(--tag-c); border: 1px solid var(--tag-border); padding: 0.2rem 0.55rem; border-radius: 3px; }
+    .project-card.featured .project-pill { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.2); }
+    .project-link { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--accent2); text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; transition: gap 0.2s; }
+    .project-card.featured .project-link { color: rgba(255,255,255,0.8); }
+    .project-link:hover { gap: 0.6rem; }
+    .exp-bg { background: var(--bg2); }
+    .timeline { display: flex; flex-direction: column; }
+    .timeline-item { display: grid; grid-template-columns: 220px 1fr; gap: 3rem; padding: 2.5rem 0; border-bottom: 1px solid var(--border); }
+    .timeline-item:last-child { border-bottom: none; }
+    .tl-period { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--text3); letter-spacing: 0.1em; margin-bottom: 0.35rem; }
+    .tl-company { font-size: 0.78rem; font-weight: 600; color: var(--accent); letter-spacing: 0.03em; text-transform: uppercase; }
+    .tl-location { font-size: 0.75rem; color: var(--text3); margin-top: 0.2rem; }
+    .tl-role { font-family: 'Instrument Serif', serif; font-size: 1.3rem; color: var(--accent); margin-bottom: 0.75rem; line-height: 1.2; }
+    .tl-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .tl-bullets li { font-size: 0.85rem; color: var(--text2); padding-left: 1.1rem; position: relative; line-height: 1.65; }
+    .tl-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent2); font-size: 0.75rem; top: 0.1rem; }
+    .tl-bullets strong { color: var(--text); font-weight: 600; }
+    .edu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+    .edu-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem 1.75rem; border-left: 3px solid var(--accent); transition: transform 0.2s; }
+    .edu-card:hover { transform: translateX(4px); }
+    .edu-degree { font-family: 'Instrument Serif', serif; font-size: 1.1rem; color: var(--accent); margin-bottom: 0.3rem; line-height: 1.3; }
+    .edu-school { font-size: 0.8rem; font-weight: 600; color: var(--text2); margin-bottom: 0.2rem; }
+    .edu-period { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text3); letter-spacing: 0.1em; }
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .contact-title { font-family: 'Instrument Serif', serif; font-size: clamp(2.2rem, 4vw, 3.5rem); color: var(--accent); line-height: 1.1; margin-bottom: 1rem; }
+    .contact-title em { font-style: italic; color: var(--accent2); }
+    .contact-sub { font-size: 0.9rem; color: var(--text2); margin-bottom: 2rem; line-height: 1.7; }
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-link { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; color: var(--text); transition: all 0.2s; }
+    .contact-link:hover { border-color: var(--accent); transform: translateX(5px); }
+    .contact-link-icon { width: 36px; height: 36px; background: var(--tag-bg); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600; color: var(--accent2); flex-shrink: 0; }
+    .contact-link-info { flex: 1; }
+    .contact-link-label { font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; }
+    .contact-link-value { font-size: 0.85rem; color: var(--text); margin-top: 0.1rem; }
+    .contact-link-arrow { color: var(--text3); font-size: 1rem; transition: color 0.2s; }
+    .contact-link:hover .contact-link-arrow { color: var(--accent); }
+    footer { border-top: 1px solid var(--border); padding: 1.75rem 4rem; display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--text3); letter-spacing: 0.06em; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 7rem 1.5rem 2rem; border-right: none; border-bottom: 1px solid var(--border); }
+      .hero-right { padding: 2rem 1.5rem 3rem; }
+      .section-wrap { padding: 4rem 1.5rem; }
+      .about-grid, .contact-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: span 1; }
+      .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .edu-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.4rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Vinicius Souza</div>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projetos">Projetos</a></li>
+    <li><a href="#experiencia">Experiência</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">Disponível para oportunidades</div>
+    <h1 class="hero-name">Vinicius<br/><span>Souza</span></h1>
+    <div class="hero-title">Data Analyst · BI Analyst · São Paulo, SP</div>
+    <p class="hero-desc">Do chão de fábrica à análise preditiva. Transformo dados operacionais complexos em decisões estratégicas — com Python, SQL, Power BI e GCP.</p>
+    <div class="hero-cta">
+      <a href="#projetos" class="btn btn-primary">Ver projetos →</a>
+      <a href="mailto:engviniciussouza@hotmail.com" class="btn btn-outline">Enviar e-mail</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat-card">
+      <div class="hero-stat-num">10+</div>
+      <div class="hero-stat-label">Anos de experiência operacional</div>
+      <div class="hero-stat-desc">Indústria siderúrgica, manufatura internacional e logística portuária.</div>
+    </div>
+    <div class="hero-stat-card">
+      <div class="hero-stat-num">5</div>
+      <div class="hero-stat-label">Projetos de analytics publicados</div>
+      <div class="hero-stat-desc">Datathon premiado, séries temporais, análise PNAD, IBOVESPA e e-commerce.</div>
+    </div>
+    <div class="hero-stat-card">
+      <div class="hero-stat-num">4</div>
+      <div class="hero-stat-label">Certificações técnicas</div>
+      <div class="hero-stat-desc">Microsoft Power BI, Google Advanced Data Analytics, SQL UC Davis, Google Data Analytics.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<section id="sobre">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-num">01 —</span>
+      <h2 class="section-title">Sobre <em>mim</em></h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-body reveal">
+        <p class="about-lead">Analista de Dados com <em>visão operacional</em> que a maioria não tem.</p>
+        <p>Minha trajetória começa no Lingotamento Contínuo da <strong>USIMINAS em Cubatão</strong>, controlando estoque de insumos para ~100 mil toneladas de aço/mês. Ali aprendi que dado sem contexto de processo é ruído — não informação.</p>
+        <p>Na Austrália, como <strong>Supervisor de Produção na Lorient/Assa Abloy (Sydney)</strong>, escalei a capacidade produtiva de 30 para 200 unidades/dia implementando Kanban com controle de inventário baseado em dados e KPIs diários de OEE e throughput.</p>
+        <p>Na <strong>G. Pierotti</strong>, monitorando ~40 navios/semana em 6 portos, desenvolvi métricas de SLA com janela de atracação — um indicador binário e irrecuperável, análogo ao on-time delivery. Foi onde comecei a formalizar minha prática em dados.</p>
+        <p>Após concluir a <strong>pós-graduação em Data Analytics pela FIAP (PósTech)</strong>, combino vivência operacional com Python, SQL, Power BI e Google Cloud Platform para construir soluções que impactam decisões reais.</p>
+      </div>
+      <div class="certif-list reveal">
+        <p style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:0.5rem;">Certificações</p>
+        <div class="certif-item">
+          <div class="certif-title">Microsoft Power BI Data Analyst Specialization</div>
+          <div class="certif-issuer">Microsoft · 2024–2025</div>
+        </div>
+        <div class="certif-item">
+          <div class="certif-title">Google Advanced Data Analytics Specialization</div>
+          <div class="certif-issuer">Google / Coursera · Jul 2024</div>
+        </div>
+        <div class="certif-item">
+          <div class="certif-title">Google Data Analytics Specialization</div>
+          <div class="certif-issuer">Google / Coursera · Jun 2024</div>
+        </div>
+        <div class="certif-item">
+          <div class="certif-title">SQL for Data Science Specialization</div>
+          <div class="certif-issuer">UC Davis / Coursera · Mai 2024</div>
+        </div>
+        <div class="certif-item" style="border-left-color: var(--gold);">
+          <div class="certif-title">IELTS — Inglês Fluente</div>
+          <div class="certif-issuer">Experiência internacional · Sydney, AU</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="skills" class="skills-bg">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-num">02 —</span>
+      <h2 class="section-title">Stack <em>técnico</em></h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A3A2A" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div class="skill-card-title">Linguagens</div>
+        <div class="skill-pills">
+          <span class="pill">Python</span><span class="pill">SQL</span><span class="pill">DAX</span><span class="pill">Power Query (M)</span><span class="pill">PySpark</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A3A2A" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <div class="skill-card-title">BI & Visualização</div>
+        <div class="skill-pills">
+          <span class="pill">Power BI</span><span class="pill">Streamlit</span><span class="pill">Plotly</span><span class="pill">Seaborn</span><span class="pill">Excel Avançado</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A3A2A" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        </div>
+        <div class="skill-card-title">Cloud & Dados</div>
+        <div class="skill-pills">
+          <span class="pill">BigQuery</span><span class="pill">GCP</span><span class="pill">AWS</span><span class="pill">ETL/ELT</span><span class="pill">Airflow</span><span class="pill">dbt</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A3A2A" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <div class="skill-card-title">Machine Learning</div>
+        <div class="skill-pills">
+          <span class="pill">scikit-learn</span><span class="pill">TensorFlow</span><span class="pill">PyTorch</span><span class="pill">XGBoost</span><span class="pill">Prophet</span><span class="pill">MLflow</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="projetos">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-num">03 —</span>
+      <h2 class="section-title">Projetos <em>em destaque</em></h2>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card featured reveal">
+        <div class="project-num">001 — PROJETO PREMIADO</div>
+        <div class="project-award">🏆 Melhor projeto da turma · PósTech FIAP</div>
+        <h3 class="project-title">Datathon Passos Mágicos — Luminar de Dados</h3>
+        <p class="project-desc">Pipeline ETL completo, análise de dados educacionais e socioeconômicos da ONG (2020–2023), modelos preditivos com scikit-learn e TensorFlow para previsão do índice INDE, e dashboard interativo em produção. Insight principal: taxa de evasão feminina superior à masculina — achado que contradisse hipóteses prévias da ONG e orientou novas políticas.</p>
+        <div class="project-pills">
+          <span class="project-pill">Python</span><span class="project-pill">scikit-learn</span><span class="project-pill">TensorFlow</span><span class="project-pill">Prophet</span><span class="project-pill">Streamlit</span><span class="project-pill">ETL</span>
+        </div>
+        <a href="https://datathon-ong-pas-sos-magicos.streamlit.app/" target="_blank" class="project-link">↗ Ver demo ao vivo</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-num">002</div>
+        <h3 class="project-title">Previsão de Preços — Petróleo Brent</h3>
+        <p class="project-desc">Modelo preditivo de séries temporais com Prophet. Dashboard Streamlit com análise de impacto de crises econômicas. Métricas RMSE e MAPE otimizados.</p>
+        <div class="project-pills">
+          <span class="project-pill">Python</span><span class="project-pill">Prophet</span><span class="project-pill">Streamlit</span><span class="project-pill">Séries temporais</span>
+        </div>
+        <a href="https://techchallenge-4.streamlit.app/" target="_blank" class="project-link">↗ Ver demo</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-num">003</div>
+        <h3 class="project-title">Previsão IBOVESPA — ARIMA + Prophet</h3>
+        <p class="project-desc">Modelo combinado ARIMA e Prophet com MAPE de 4,19%. Testes de estacionariedade (ADF), otimização de hiperparâmetros e backtesting robusto.</p>
+        <div class="project-pills">
+          <span class="project-pill">Python</span><span class="project-pill">ARIMA</span><span class="project-pill">Prophet</span><span class="project-pill">Finance</span>
+        </div>
+        <a href="#" class="project-link">↗ Ver repositório</a>
+      </div>
+      <div class="project-card reveal">
+        <div class="project-num">004</div>
+        <h3 class="project-title">Análise PNAD-COVID-19 com BigQuery</h3>
+        <p class="project-desc">Identificação de padrões clínicos e socioeconômicos durante a pandemia. Pipeline com BigQuery e Python, gerando insights segmentados por grupo social.</p>
+        <div class="project-pills">
+          <span class="project-pill">BigQuery</span><span class="project-pill">Python</span><span class="project-pill">GCP</span><span class="project-pill">Pipeline</span>
+        </div>
+        <a href="#" class="project-link">↗ Ver repositório</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="experiencia" class="exp-bg">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-num">04 —</span>
+      <h2 class="section-title">Experiência <em>profissional</em></h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="tl-left">
+          <div class="tl-period">ABR 2022 — MAI 2023</div>
+          <div class="tl-company">G. Pierotti</div>
+          <div class="tl-location">Santos, SP — Brasil</div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-role">Coordenador de Operações Logísticas — Análise de KPIs e Performance</div>
+          <ul class="tl-bullets">
+            <li>Monitorei e analisei KPIs operacionais de entrega para <strong>~40 navios/semana em 6 portos</strong>, identificando gargalos e oportunidades de melhoria.</li>
+            <li>Desenvolvi métricas de <strong>SLA e taxa de atendimento dentro da janela de atracação</strong> — indicador binário e irrecuperável — reduzindo falhas operacionais críticas.</li>
+            <li>Usei análise de dados para suportar negociações com alfândega, segurança portuária e agências marítimas.</li>
+            <li>Produzi relatórios analíticos para o departamento comercial, apoiando decisões estratégicas com dados de performance.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="tl-left">
+          <div class="tl-period">DEZ 2017 — ABR 2021</div>
+          <div class="tl-company">Lorient — Assa Abloy</div>
+          <div class="tl-location">Sydney, Austrália</div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-role">Supervisor de Produção — Analytics de Operações e Eficiência</div>
+          <ul class="tl-bullets">
+            <li>Escalei capacidade produtiva de <strong>30 para 200 unidades/dia</strong> de Fire Dampers via análise de gargalos, redesenho de fluxo e Kanban com controle de inventário baseado em dados.</li>
+            <li>Monitorei KPIs diários (throughput, taxa de defeitos, OEE) e implementei ações corretivas orientadas por dados, reduzindo desperdícios via Lean Manufacturing.</li>
+            <li>Gerenciei controle de estoque cíclico e análise de consumo de materiais integrando dados de <strong>4 armazéns</strong>.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="tl-left">
+          <div class="tl-period">DEZ 2010 — MAI 2015</div>
+          <div class="tl-company">USIMINAS</div>
+          <div class="tl-location">Cubatão, SP — Brasil</div>
+        </div>
+        <div class="tl-right">
+          <div class="tl-role">Operador de Produção — Lingotamento Contínuo</div>
+          <ul class="tl-bullets">
+            <li>Controlei estoque de insumos para produção de <strong>~100 mil toneladas de aço/mês</strong>, mantendo acuracidade de inventário e rastreabilidade de materiais refratários.</li>
+            <li>Coletei e registrei dados de processo, monitorando KPIs de qualidade e produtividade com reportes para ação corretiva.</li>
+            <li>Realizei auditorias de qualidade e participei de reuniões diárias de HSE com análise de indicadores de segurança.</li>
+            <li>Mentoreei novos operadores em coleta de dados, controle de processo e padrões de qualidade.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="educacao">
+  <div class="section-wrap">
+    <div class="section-header reveal">
+      <span class="section-num">05 —</span>
+      <h2 class="section-title">Formação <em>acadêmica</em></h2>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-degree">Pós-Graduação em Data Analytics</div>
+        <div class="edu-school">FIAP — PósTech · São Paulo, SP</div>
+        <div class="edu-period">OUT 2023 — SET 2024</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-degree">Bacharelado em Engenharia de Computação</div>
+        <div class="edu-school">Universidade Santa Cecília · Santos, SP</div>
+        <div class="edu-period">JAN 2010 — DEZ 2015</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-degree">Advanced Diploma in ICT Business Analysis</div>
+        <div class="edu-school">York Business Institute · Sydney, Austrália</div>
+        <div class="edu-period">JAN 2019 — DEZ 2020</div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-degree">Diploma em Project Management</div>
+        <div class="edu-school">Australian Pacific College · Sydney, Austrália</div>
+        <div class="edu-period">JAN 2018 — DEZ 2019</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<section id="contato">
+  <div class="section-wrap">
+    <div class="contact-wrap">
+      <div class="reveal">
+        <h2 class="contact-title">Vamos<br/><em>conversar?</em></h2>
+        <p class="contact-sub">Aberto a oportunidades em Data Analytics, BI Analyst e Data Engineering. Se você tem um projeto ou vaga desafiadora, entre em contato.</p>
+        <a href="mailto:engviniciussouza@hotmail.com" class="btn btn-primary">Enviar e-mail →</a>
+      </div>
+      <div class="contact-links reveal">
+        <a href="https://www.linkedin.com/in/viniciusaesouza/" target="_blank" class="contact-link">
+          <div class="contact-link-icon">in</div>
+          <div class="contact-link-info">
+            <div class="contact-link-label">LinkedIn</div>
+            <div class="contact-link-value">linkedin.com/in/viniciusaesouza</div>
+          </div>
+          <span class="contact-link-arrow">↗</span>
+        </a>
+        <a href="mailto:engviniciussouza@hotmail.com" class="contact-link">
+          <div class="contact-link-icon">@</div>
+          <div class="contact-link-info">
+            <div class="contact-link-label">E-mail</div>
+            <div class="contact-link-value">engviniciussouza@hotmail.com</div>
+          </div>
+          <span class="contact-link-arrow">↗</span>
+        </a>
+        <a href="tel:+5513991648214" class="contact-link">
+          <div class="contact-link-icon">tel</div>
+          <div class="contact-link-info">
+            <div class="contact-link-label">Telefone</div>
+            <div class="contact-link-value">+55 (13) 99164-8214</div>
+          </div>
+          <span class="contact-link-arrow">↗</span>
+        </a>
+        <a href="#" class="contact-link">
+          <div class="contact-link-icon">gh</div>
+          <div class="contact-link-info">
+            <div class="contact-link-label">GitHub</div>
+            <div class="contact-link-value">Adicione seu usuário aqui</div>
+          </div>
+          <span class="contact-link-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Vinicius A. E. Souza · São Paulo, SP</span>
+  <span>Hospedado no GitHub Pages</span>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 70);
+    });
+  }, { threshold: 0.08 });
+  els.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
